@@ -6,7 +6,7 @@ from app.routes.item import route as item_route
 app=FastAPI()
 
 # adding routes to our app
-app.include_router(router=item_route,prefix='api')
+app.include_router(router=item_route,prefix='/api')
 
 
 

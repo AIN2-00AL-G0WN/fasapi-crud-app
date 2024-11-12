@@ -26,12 +26,12 @@ def get_all_items()->dict[Any,Any]:
 
 # url to update an Item with specific id .
 # first it checks if the item with the given id is present or not if present updates the requested fields and return the updated object otherwise throws HTTP exception.
-@route.patch('/items/{id}')
+@route.put('/items/{id}')
 def update_item(id:int,item:UpdateItem)->Item:
     if id in fake_db:
         db_item_data=  fake_db[id]
         db_item_model= CreateItem(**db_item_data)
-        updated_data= item.model_dump(exclude_unset=True)
+        updated_data= item.dict(exclude_unset=True)
         updated_item= db_item_model.copy(update=updated_data)
         fake_db[id]=  jsonable_encoder(updated_item)
         return updated_item
@@ -43,5 +43,5 @@ def update_item(id:int,item:UpdateItem)->Item:
 def delete_item(id:int):
     if id in fake_db:
         del fake_db[id]
-        return {"message": "Done"}
+        return {"message": "Item deleted successfully."}
     raise HTTPException(status_code=404,detail="Item not found delete error")
