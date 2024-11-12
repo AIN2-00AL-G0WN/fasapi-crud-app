@@ -1,4 +1,12 @@
 import uvicorn
+from fastapi import FastAPI
+from app.routes.item import route as item_route
+
+# setting up a Fastapi app
+app=FastAPI()
+
+# adding routes to our app
+app.include_router(router=item_route,prefix='api')
 
 
 
