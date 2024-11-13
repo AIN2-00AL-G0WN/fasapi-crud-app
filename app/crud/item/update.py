@@ -1,4 +1,4 @@
-from app.schemas.item import CreateItem,Item
+from app.schemas.item import Item
 from fastapi.encoders import jsonable_encoder
 
 # this function takes Item id and db session as parameter
@@ -6,7 +6,7 @@ from fastapi.encoders import jsonable_encoder
 def update(id:int,item,db)->Item:
     if id in db:
         db_item_data=  db[id]
-        db_item_model= CreateItem(**db_item_data)
+        db_item_model= Item(**db_item_data)
         updated_data= item.dict(exclude_unset=True)
         updated_item= db_item_model.copy(update=updated_data)
         db[id]=  jsonable_encoder(updated_item)
