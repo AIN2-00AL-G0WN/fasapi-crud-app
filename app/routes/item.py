@@ -19,10 +19,18 @@ def create_item(item:CreateItem)->Item:
     fake_db[item.id]=jsonable_encoder(item)
     return item
 
-# url to retrive all the objects in our database
+# url to retrive all the items in our database
 @route.get('/items')
 def get_all_items()->dict[Any,Any]:
     return fake_db
+
+# url to retrive perticular item
+# first it checks if the item with the given id is present or not if present returns the Item,otherwise thows a HTTP exception.
+@route.get('/items/{id}')
+def get_item(id:int)->Item:
+    if id in fake_db:
+        return fake_db[id]
+    raise HTTPException(status_code=404 , detail="Item not found put error")
 
 # url to update an Item with specific id .
 # first it checks if the item with the given id is present or not if present updates the requested fields and return the updated object otherwise throws HTTP exception.
