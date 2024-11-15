@@ -1,13 +1,12 @@
-from typing import List,Any
-from app.schemas.item import Item
+from sqlalchemy.orm import session
+from app.models.item import Item as item_model
+
 # function to retrive all the items in our database
-def get_all_items(db)->dict[Any,Item]:
-    return db
+def get_all(db:session):
+    return db.query(item_model).all()
 
 
 # function to retrive perticular item which takes id and db session.
-# first it checks if the item with the given id is present or not if present returns the Item,otherwise thows a HTTP exception.
-def get_item(id:int,db)->Item:
-    if id in db:
-        return db[id]
-    raise FileExistsError("Item not found")
+# first it checks if the item with the given id is present or not if present returns the Item,otherwise thows an exception.
+def get(db:session,id:int):
+    return db.query(item_model).get(id)
