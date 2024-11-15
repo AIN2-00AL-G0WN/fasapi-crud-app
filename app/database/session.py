@@ -1,6 +1,26 @@
-# importing Item pydantic model from schemas
-from app.schemas.item import Item 
+import os
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from dotenv import  load_dotenv
 
-# Dictionary as fake database  with 2 Item object as initial data
-fake_db={1:Item(id=1,description="first smartphone with 100MP camera",name="VIVO",price=20000,quantity=17),
-         2:Item(id=2,description="new cooling system for better gaming experience",name="ASUS",price=40000,quantity=3)}
+
+# loading environment variables  
+load_dotenv()
+
+# Database connection key storen in .env file
+DATABASE_CONNECTION_URL=os.getenv("DATABASE_CONNECTION_URL")
+
+# Creating a sqlalchemy engine to establish connection with the database
+engine = create_engine(DATABASE_CONNECTION_URL)
+
+# creating a sqlalchemy session to handle transactions.
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+
+
+def get_db():
+    db = SessionLocal()  # Creates a new database session
+    try:
+        yield db  # used here to return the session
+    finally:
+        db.close() # closes the session
