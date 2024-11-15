@@ -3,7 +3,7 @@ from app.database.session import engine
 from sqlalchemy.ext.declarative import declarative_base
 
 # Parent class for all the sql models
-Base=declarative_base
+Base=declarative_base()
 
 # Python class to create Item object and also the schema for item table
 class Item(Base):
